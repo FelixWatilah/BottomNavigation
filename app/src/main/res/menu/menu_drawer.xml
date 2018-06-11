@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/new_recipe"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:icon="@drawable/ic_add_black_24dp"
+        android:title="New Recipe" />
+
+    <item
+        android:id="@+id/recipes"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:icon="@drawable/ic_apps_black_24dp"
+        android:title="Recipes" />
+
+    <item
+        android:id="@+id/saved_recipes"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:icon="@drawable/ic_cake_black_24dp"
+        android:title="Saved Recipes" />
+
+    <item
+        android:id="@+id/shopping_list"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:icon="@drawable/ic_view_list_black_24dp"
+        android:title="Shopping List" />
+
+    <item
+        android:id="@+id/settings"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="Settings" />
+
+</menu>
