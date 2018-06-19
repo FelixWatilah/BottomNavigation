@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,10 +44,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerViewAdapterRecipe recyclerViewAdapterRecipe;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
-
-    private String URL_JSON = "https://gist.githubusercontent.com/aws1994/f583d54e5af8e56173492d3f60dd5ebf/raw/c7796ba51d5a0d37fc756cf0fd14e54434c547bc/anime.json";
-    private JsonArrayRequest ArrayRequest;
-    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
 
-                if (id == R.id.recipes) {
+                if (id == R.id.saved_recipes) {
                     Toast.makeText(getApplicationContext(), "Recipes", Toast.LENGTH_SHORT).show();
                     return true;
                 }
@@ -89,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Recipe");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Recipe");
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
 
         recyclerView = findViewById(R.id.recycler_view);
@@ -101,11 +98,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void jsonCall() {
 
-        ArrayRequest = new JsonArrayRequest(URL_JSON, new Response.Listener<JSONArray>() {
+        String URL_JSON = "https://gist.githubusercontent.com/aws1994/f583d54e5af8e56173492d3f60dd5ebf/raw/c7796ba51d5a0d37fc756cf0fd14e54434c547bc/anime.json";
+        JsonArrayRequest arrayRequest = new JsonArrayRequest(URL_JSON, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
 
-                JSONObject jsonObject = null;
+                JSONObject jsonObject;
 
                 for (int i = 0; i < response.length(); i++) {
 
@@ -143,8 +141,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        requestQueue = Volley.newRequestQueue(MainActivity.this);
-        requestQueue.add(ArrayRequest);
+        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+        requestQueue.add(arrayRequest);
     }
 
     public void setRvAdapter(List<Recipe> listRecipe) {

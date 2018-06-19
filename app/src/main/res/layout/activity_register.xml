@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context="com.example.watilah.bottomnavigation.LoginActivity">
+    tools:context="com.example.watilah.bottomnavigation.RegisterActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,64 +34,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:fontFamily="sans-serif"
-                android:text="Login"
+                android:text="Registration"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:fontFamily="sans-serif"
-                android:text="Welcome to Beatus Recipe App. We present to you recipes for both local and international meals."
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="18sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:textAlignment="center">
-
-                <Button
-                    android:id="@+id/more"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_style_outline"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:fontFamily="sans-serif"
-                    android:text="Learn More"
-                    android:textColor="#ffffff"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/toRegister"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_style_outline"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:fontFamily="sans-serif"
-                    android:text="Register"
-                    android:textColor="@color/colorIcons"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -110,12 +55,29 @@
                 android:layout_marginTop="8dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/log_email"
+                    android:id="@+id/reg_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="8dp"
+                    android:drawablePadding="16dp"
+                    android:drawableStart="@drawable/ic_person_black_24dp"
+                    android:hint="Name"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:textColorHint="@color/colorPrimaryDark" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/reg_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="16dp"
                     android:drawableStart="@drawable/ic_email_black_24dp"
-                    android:focusable="true"
                     android:hint="Email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
@@ -129,12 +91,11 @@
                 android:layout_marginTop="8dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/log_password"
+                    android:id="@+id/reg_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="8dp"
+                    android:drawablePadding="16dp"
                     android:drawableStart="@drawable/ic_lock_black_24dp"
-                    android:focusable="true"
                     android:hint="Password"
                     android:inputType="textPassword"
                     android:maxLines="1"
@@ -142,17 +103,41 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/log_btn"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/button"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="Login"
-                android:textStyle="bold"
-                android:textColor="@color/colorIcons"/>
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:textAlignment="center">
+
+                <Button
+                    android:id="@+id/register"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/button"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif"
+                    android:text="Register"
+                    android:textColor="@color/colorIcons"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif"
+                    android:text="Already have an account? Login here."
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

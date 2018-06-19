@@ -59,7 +59,7 @@ public class RecyclerViewAdapterRecipe extends RecyclerView.Adapter<RecyclerView
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(mContext, TabLayoutActivity.class);
+                Intent intent = new Intent(mContext, DetailsActivity.class);
 
                 intent.putExtra("Image", mData.get(position).getThumbnail());
                 intent.putExtra("Title", mData.get(position).getName());

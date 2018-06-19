@@ -23,7 +23,7 @@ public class WelcomeActivity extends AppCompatActivity {
             public void run() {
                 try {
                     sleep(2000);
-                    Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent mainIntent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(mainIntent);
                     finish();
                 } catch (InterruptedException e) {

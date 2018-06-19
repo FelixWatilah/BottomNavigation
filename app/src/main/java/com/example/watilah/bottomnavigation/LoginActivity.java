@@ -10,11 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.android.volley.Request.Method;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.watilah.bottomnavigation.helper.SQLiteHandler;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,12 +25,14 @@ import java.util.Map;
 
 
 public class LoginActivity extends Activity {
-    private static final String TAG = AddActivity.class.getSimpleName();
-    private Button mLogBtn, mToRegister, mMore;
+
+    private static final String TAG = "LoginActivity";
     private TextInputEditText mLogEmail, mLogPassword;
     private ProgressDialog pDialog;
-    //private SessionManager session;
-    private SQLiteHandler db;
+
+    private String email, password;
+
+    String LOGIN_URL = "http://10.0.2.2/CRUD/login.php";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,27 +41,14 @@ public class LoginActivity extends Activity {
 
         mLogEmail = findViewById(R.id.log_email);
         mLogPassword = findViewById(R.id.log_password);
-        mLogBtn = findViewById(R.id.log_btn);
-        mToRegister = findViewById(R.id.toRegister);
-        mMore = findViewById(R.id.more);
+
+        Button mLogBtn = findViewById(R.id.log_btn);
+        Button mToRegister = findViewById(R.id.toRegister);
+        Button mMore = findViewById(R.id.more);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
-
-        // SQLite database handler
-        db = new SQLiteHandler(getApplicationContext());
-
-        // Session manager
-        //session = new SessionManager(getApplicationContext());
-
-        // Check if user is already logged in or not
-//        if (session.isLoggedIn()) {
-//            // User is already logged in. Take him to main activity
-//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
 
         // More button Click Event
         mMore.setOnClickListener(new View.OnClickListener() {
@@ -74,17 +64,10 @@ public class LoginActivity extends Activity {
         mLogBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                String email = mLogEmail.getText().toString().trim();
-                String password = mLogPassword.getText().toString().trim();
+                email = mLogEmail.getText().toString().trim();
+                password = mLogPassword.getText().toString().trim();
 
-                // Check for empty data in the form
-                if (!email.isEmpty() && !password.isEmpty()) {
-                    // login user
-                    checkLogin(email, password);
-                } else {
-                    // Prompt user to enter credentials
-                    Toast.makeText(getApplicationContext(), "Please enter the credentials!", Toast.LENGTH_LONG).show();
-                }
+                login(email, password);
             }
 
         });
@@ -93,112 +76,78 @@ public class LoginActivity extends Activity {
         mToRegister.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), AddActivity.class);
-                startActivity(i);
+                Intent toRegisterIntent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(toRegisterIntent);
                 finish();
             }
         });
 
     }
 
-    /**
-     * function to verify login details in mysql db
-     */
-    private void checkLogin(final String email, final String password) {
+    // Login Method
+    public void login(final String email, final String password) {
+
         // Tag used to cancel the request
-        String tag_string_req = "req_login";
-        pDialog.setMessage("Logging in ...");
+        String cancel_req_tag = "login";
+        pDialog.setMessage("Logging you in...");
         showDialog();
 
-        StringRequest strReq = new StringRequest(Method.POST, AppConfig.URL_LOGIN, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, LOGIN_URL,
+                new Response.Listener<String>() {
 
-//            @Override
-//            public void onResponse(String response) {
-//                Log.d(TAG, "Login Response: " + response.toString());
-//                hideDialog();
-//
-//                try {
-//                    JSONObject jObj = new JSONObject(response);
-//                    boolean error = jObj.getBoolean("error");
-//
-//                    // Check for error node in json
-//                    if (!error) {
-//                        // user successfully logged in
-//                        // Create login session
-//                        //session.setLogin(true);
-//
-//                        // Now store the user in SQLite
-//                        String uid = jObj.getString("uid");
-//
-//                        JSONObject user = jObj.getJSONObject("user");
-//                        String name = user.getString("name");
-//                        String email = user.getString("email");
-//                        String created_at = user.getString("created_at");
-//
-//                        // Inserting row in users table
-//                        db.addUser(name, email, uid, created_at);
-//
-//                        // Launch main activity
-//                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                        startActivity(intent);
-//                        finish();
-//                    } else {
-//                        // Error in login. Get the error message
-//                        String errorMsg = jObj.getString("error_msg");
-//                        Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
-//                    }
-//                } catch (JSONException e) {
-//                    // JSON error
-//                    e.printStackTrace();
-//                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-//                }
-//
-//            }
+                    @Override
+                    public void onResponse(String response) {
+
+                        //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "Register Response: " + response);
+                        hideDialog();
+
+                        try {
+                            JSONObject jObj = new JSONObject(response);
+                            boolean error = jObj.getBoolean("error");
+
+                            if (!error) {
+                                String user = jObj.getJSONObject("user").getString("name");
+                                // Launch User activity
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.putExtra("username", user);
+                                startActivity(intent);
+                                finish();
+                            } else {
+
+                                String errorMsg = jObj.getString("error_msg");
+                                Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
 
-
-
-
-            @Override
-            public void onResponse(String Response) {
-                try {
-                    JSONObject jsonObject=new JSONObject(Response);
-                    if(jsonObject.getString("uid").isEmpty()){
-                        Toast.makeText(LoginActivity.this,"Failed to log in",Toast.LENGTH_LONG).show();
+                        /*if (response.equals("1")) {
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        } else if (response.equals("2")) {
+                            Toast.makeText(getApplicationContext(), "User with these details exist.", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
+                        }*/
                     }
-                    else{
-                        Toast.makeText(LoginActivity.this,"Welcome to the system :"+jsonObject.getString("uid"),Toast.LENGTH_LONG).show();
-                        Intent intent =new Intent(LoginActivity.this,MainActivity.class);
-                        intent.putExtra("email",jsonObject.getString("uid"));
-                        startActivity(intent);
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        Log.e(TAG, "Login Error: " + error.getMessage());
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        hideDialog();
+
+                        //Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-
-
-
-
-
-
-
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Login Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-                hideDialog();
-            }
-        }) {
-
+                }) {
             @Override
             protected Map<String, String> getParams() {
-                // Posting parameters to login url
-                Map<String, String> params = new HashMap<String, String>();
+
+                Map<String, String> params = new HashMap<>();
+
                 params.put("email", email);
                 params.put("password", password);
 
@@ -207,8 +156,9 @@ public class LoginActivity extends Activity {
 
         };
 
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+
     }
 
     private void showDialog() {
@@ -220,4 +170,5 @@ public class LoginActivity extends Activity {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
+
 }

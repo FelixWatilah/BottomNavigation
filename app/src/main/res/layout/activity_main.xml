@@ -22,8 +22,8 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="top"
             android:background="@color/colorPrimary"
-            android:gravity="center"
             android:elevation="6dp"
+            android:gravity="center"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
         <android.support.v7.widget.RecyclerView
@@ -32,6 +32,8 @@
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar_main"
             android:layout_margin="4dp"
+            android:clickable="true"
+            android:focusable="true"
             tools:layout_editor_absoluteY="62dp" />
 
     </RelativeLayout>
@@ -47,7 +49,7 @@
         app:arc_width="80dp"
         app:elevation="2dp"
         app:headerLayout="@layout/header"
-        app:itemBackground="@color/colorBackground"
+        app:itemBackground="@color/colorIcons"
         app:itemIconTint="@color/colorPrimaryDark"
         app:itemTextColor="@color/colorPrimaryText"
         app:menu="@menu/menu_drawer" />

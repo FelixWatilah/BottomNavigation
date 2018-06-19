@@ -24,5 +24,6 @@
     <string name="directions">Directions</string>
     <string name="nutrition">Nutrition</string>
     <string name="new_recipe">"Add New Recipe"</string>
+    <string name="food_image">Food Image</string>
 
 </resources>

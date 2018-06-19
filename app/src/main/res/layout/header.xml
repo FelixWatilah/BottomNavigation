@@ -10,7 +10,7 @@
         android:layout_marginTop="20dp"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:background="@drawable/circlebackgroundyellow"
+        android:background="@drawable/circle_pink_background"
         android:src="@drawable/ic_java_icon" />
 
     <TextView

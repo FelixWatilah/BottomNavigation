@@ -11,7 +11,7 @@ public class Recipe {
     private String description;
     private String thumbnail;
 
-    public Recipe(){
+    public Recipe() {
 
     }
 
