@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
     private String name, email, password;
     ProgressDialog progressDialog;
     private static final String TAG = "RegisterActivity";
-    String REGISTER_URL = "http://10.0.2.2/CRUD/registration.php";
+    //String REGISTER_URL = "http://10.0.2.2/CRUD/registration.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,12 @@ public class RegisterActivity extends AppCompatActivity {
                 email = mRegEmail.getText().toString();
                 password = mRegPassword.getText().toString();
 
-                register(name, email, password);
+                if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
+                    register(name, email, password);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please enter your details!", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -76,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
         progressDialog.setMessage("Registering...");
         showDialog();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_REGISTER, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -103,17 +108,6 @@ public class RegisterActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
-                //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
-
-                /*if (response.equals("1")) {
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                } else if (response.equals("2")) {
-                    Toast.makeText(getApplicationContext(), "User with this details exists", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
-                }*/
 
             }
         }, new Response.ErrorListener() {

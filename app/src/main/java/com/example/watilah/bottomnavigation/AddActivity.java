@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +31,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,11 +44,12 @@ public class AddActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     private static final String TAG = "AddActivity";
 
-    FloatingActionButton floatingActionButton;
-    ImageView image;
-    TextInputEditText recipeName, category, preparationTime, cookTime, description, ingredient, step, comment, source, url, videoUrl;
-    Button save;
-    String addImage, addName, addCategory, addPrepTime, addCookTime, addDesc, addIngr, addStep, addComment, addSource, addUrl, addVideoUrl;
+    private FloatingActionButton floatingActionButton;
+    private ImageView image;
+    private TextInputEditText recipeName, category, preparationTime, cookTime, description, ingredient, step, comment, source, url, videoUrl;
+    private Button save;
+    private Bitmap bitmap;
+    private String addImage, addName, addCategory, addPrepTime, addCookTime, addDesc, addIngr, addStep, addComment, addSource, addUrl, addVideoUrl;
 
     final ArrayList<CategoryModel> categoryList = new ArrayList<>();
 
@@ -202,7 +205,7 @@ public class AddActivity extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("image", addImage);
+                params.put("image", imageToString(bitmap));
                 params.put("name", addName);
                 params.put("category", addCategory);
                 params.put("preptime", addPrepTime);
@@ -353,7 +356,7 @@ public class AddActivity extends AppCompatActivity {
             if (data != null) {
                 Uri contentURI = data.getData();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
                     //String path = saveImage(bitmap);
                     Toast.makeText(getApplicationContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
                     image.setImageBitmap(bitmap);
@@ -400,6 +403,14 @@ public class AddActivity extends AppCompatActivity {
         }
         return "";
     }*/
+
+    public String imageToString(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] imageBytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+    }
 
     private class CategoryModel {
         private String name;

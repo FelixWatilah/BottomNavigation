@@ -9,6 +9,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -26,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.rom4ek.arcnavigationview.ArcNavigationView;
 
 import org.json.JSONArray;
@@ -44,20 +46,29 @@ public class MainActivity extends AppCompatActivity {
     RecyclerViewAdapterRecipe recyclerViewAdapterRecipe;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    private ShimmerFrameLayout mShimmerViewContainer;
+
+    public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
+        toolbar = findViewById(R.id.toolbar_main);
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+        setSupportActionBar(toolbar);
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Recipe");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+
         drawerLayout = findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ArcNavigationView arcNavigationView = findViewById(R.id.nav_view);
         arcNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -84,12 +95,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Toolbar toolbar = findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Recipe");
-        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
 
         recyclerView = findViewById(R.id.recycler_view);
+        recyclerViewAdapterRecipe = new RecyclerViewAdapterRecipe(this, listRecipe);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        //recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(recyclerViewAdapterRecipe);
 
         // Call json method
         jsonCall();
@@ -115,13 +128,20 @@ public class MainActivity extends AppCompatActivity {
                         Recipe recipe = new Recipe();
 
                         recipe.setName(jsonObject.getString("name"));
-                        recipe.setCategory(jsonObject.getString("Rating"));
-                        recipe.setDescription(jsonObject.getString("categorie"));
+                        recipe.setCategory(jsonObject.getString("categorie"));
+                        recipe.setDescription(jsonObject.getString("description"));
                         recipe.setThumbnail(jsonObject.getString("img"));
 
                         //Toast.makeText(MainActivity.this,recipe.toString(),Toast.LENGTH_SHORT).show();
 
                         listRecipe.add(recipe);
+
+                        // refreshing recycler view
+                        recyclerViewAdapterRecipe.notifyDataSetChanged();
+
+                        // stop animating Shimmer and hide the layout
+                        mShimmerViewContainer.stopShimmerAnimation();
+                        mShimmerViewContainer.setVisibility(View.GONE);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -131,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Size of List" + String.valueOf(listRecipe.size()), Toast.LENGTH_SHORT).show();
                 //Toast.makeText(MainActivity.this, listRecipe.get(1).toString(), Toast.LENGTH_SHORT).show();
 
-                setRvAdapter(listRecipe);
+                //setRvAdapter(listRecipe);
 
             }
         }, new Response.ErrorListener() {
@@ -145,14 +165,14 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(arrayRequest);
     }
 
-    public void setRvAdapter(List<Recipe> listRecipe) {
+    /*public void setRvAdapter(List<Recipe> listRecipe) {
 
         recyclerViewAdapterRecipe = new RecyclerViewAdapterRecipe(this, listRecipe);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(recyclerViewAdapterRecipe);
 
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -234,10 +254,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void favoriteClick(View view) {
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerViewContainer.startShimmerAnimation();
+    }
 
-        Toast.makeText(this, "Favorite clicked", Toast.LENGTH_SHORT).show();
-
+    @Override
+    public void onPause() {
+        mShimmerViewContainer.stopShimmerAnimation();
+        super.onPause();
     }
 
 }

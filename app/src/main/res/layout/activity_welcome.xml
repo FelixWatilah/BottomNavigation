@@ -9,13 +9,18 @@
     android:orientation="vertical"
     tools:context="com.example.watilah.bottomnavigation.WelcomeActivity">
 
+    <ImageView
+        android:id="@+id/welcome_logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/java" />
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        android:fontFamily="monospace"
         android:text="BEATUS RECIPE"
         android:textColor="@color/colorPrimaryText"
         android:textSize="40sp"
@@ -27,7 +32,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
-        android:fontFamily="sans-serif"
         android:text="LET'S COOK DELICIOUS MEALS"
         android:textAlignment="center"
         android:textAllCaps="true"

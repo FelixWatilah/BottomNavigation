@@ -38,8 +38,12 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
 
+    // Shimmer
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+
     // Volley
     implementation 'com.android.volley:volley:1.1.0'
+    implementation 'com.google.code.gson:gson:2.8.0'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.7.1'
@@ -51,8 +55,8 @@ dependencies {
     // ArcNavigation
     implementation 'com.rom4ek:arcnavigationview:1.0.3'
 
-    // Boom Menu
-    implementation 'com.nightonke:boommenu:2.1.1'
+    // Clans FAB
+    implementation 'io.github.yavski:fab-speed-dial:1.0.6'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

@@ -8,6 +8,7 @@ import android.support.design.widget.TextInputEditText;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -32,7 +33,7 @@ public class LoginActivity extends Activity {
 
     private String email, password;
 
-    String LOGIN_URL = "http://10.0.2.2/CRUD/login.php";
+    //String LOGIN_URL = "http://10.0.2.2/CRUD/login.php";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,8 +44,8 @@ public class LoginActivity extends Activity {
         mLogPassword = findViewById(R.id.log_password);
 
         Button mLogBtn = findViewById(R.id.log_btn);
-        Button mToRegister = findViewById(R.id.toRegister);
-        Button mMore = findViewById(R.id.more);
+        TextView mToRegister = findViewById(R.id.toRegister);
+        TextView mMore = findViewById(R.id.more);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
@@ -67,7 +68,12 @@ public class LoginActivity extends Activity {
                 email = mLogEmail.getText().toString().trim();
                 password = mLogPassword.getText().toString().trim();
 
-                login(email, password);
+                if (!email.isEmpty() && !password.isEmpty()) {
+                    login(email, password);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please enter your details!", Toast.LENGTH_LONG).show();
+                }
+
             }
 
         });
@@ -92,7 +98,7 @@ public class LoginActivity extends Activity {
         pDialog.setMessage("Logging you in...");
         showDialog();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, LOGIN_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_LOGIN,
                 new Response.Listener<String>() {
 
                     @Override
@@ -122,14 +128,6 @@ public class LoginActivity extends Activity {
                             e.printStackTrace();
                         }
 
-
-                        /*if (response.equals("1")) {
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        } else if (response.equals("2")) {
-                            Toast.makeText(getApplicationContext(), "User with these details exist.", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
-                        }*/
                     }
                 },
                 new Response.ErrorListener() {

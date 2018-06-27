@@ -11,7 +11,7 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:background="@drawable/circle_pink_background"
-        android:src="@drawable/ic_java_icon" />
+        android:src="@drawable/java" />
 
     <TextView
         android:layout_width="wrap_content"

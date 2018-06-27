@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/new_recipe"
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:icon="@drawable/ic_add_black_24dp"
-        android:title="New Recipe" />
+    <group android:checkableBehavior="single">
 
-    <item
-        android:id="@+id/saved_recipes"
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:icon="@drawable/ic_local_dining"
-        android:title="Saved Recipes" />
+        <item
+            android:id="@+id/new_recipe"
+            android:icon="@drawable/ic_add_black"
+            android:title="@string/new_recipe" />
 
-    <item
-        android:id="@+id/shopping_list"
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:icon="@drawable/ic_view_list_black_24dp"
-        android:title="Shopping List" />
+        <item
+            android:id="@+id/saved_recipes"
+            android:icon="@drawable/ic_local_dining"
+            android:title="@string/saved_recipes" />
 
-    <item
-        android:id="@+id/settings"
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:icon="@drawable/ic_settings_black_24dp"
-        android:title="Settings" />
+        <item
+            android:id="@+id/shopping_list"
+            android:icon="@drawable/ic_view_list_black_24dp"
+            android:title="@string/shopping_list" />
+
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/settings" />
+
+    </group>
 
 </menu>

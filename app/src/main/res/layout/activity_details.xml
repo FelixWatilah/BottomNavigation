@@ -30,8 +30,7 @@
                 android:id="@+id/img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/pink" />
+                android:scaleType="centerCrop" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -64,7 +63,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:clickable="true"
-                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
                 app:cardCornerRadius="4dp">
 
                 <LinearLayout
@@ -106,7 +105,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="4dp"
                 android:clickable="true"
-                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
                 app:cardCornerRadius="4dp">
 
                 <LinearLayout
@@ -143,12 +142,12 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="4dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="4dp"
                 android:clickable="true"
-                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
                 app:cardCornerRadius="4dp">
 
                 <LinearLayout
@@ -182,6 +181,77 @@
 
             </android.support.v7.widget.CardView>
 
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:clickable="true"
+                android:foreground="?android:selectableItemBackground"
+                app:cardCornerRadius="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="8dp"
+                        android:drawableStart="@drawable/ic_description"
+                        android:text="Description"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/colorDivider" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Category :"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/details_cat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Category"
+                            android:textColor="@color/colorPrimaryText"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/details_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Description"
+                        android:textColor="@color/colorSecondaryText" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
@@ -193,9 +263,10 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_add_black_24dp"
+        android:src="@drawable/ic_add_black"
         app:backgroundTint="@color/colorAccent"
         app:layout_anchor="@id/viewOne"
+        app:fabSize="normal"
         app:layout_anchorGravity="bottom|right|end"
         app:rippleColor="#FFF" />
 
