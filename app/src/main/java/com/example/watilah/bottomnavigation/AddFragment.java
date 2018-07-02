@@ -10,13 +10,15 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -38,7 +40,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class AddActivity extends AppCompatActivity {
+import static android.app.Activity.RESULT_CANCELED;
+
+public class AddFragment extends Fragment {
 
     String URL = "http://10.0.2.2/CRUD/add_recipe.php";
     ProgressDialog progressDialog;
@@ -61,31 +65,36 @@ public class AddActivity extends AppCompatActivity {
 
     private int GALLERY = 1, CAMERA = 2;
 
+    public AddFragment() {
+        // Required empty public constructor
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add);
 
-        // Toolbar
-        Toolbar toolbarAdd = findViewById(R.id.toolbar_add);
-        setSupportActionBar(toolbarAdd);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Add New Recipe");
-        toolbarAdd.setTitleTextColor(Color.parseColor("#ffffff"));
+    }
 
-        floatingActionButton = findViewById(R.id.fab_take_image);
-        image = findViewById(R.id.image_from_camera);
-        recipeName = findViewById(R.id.add_recipe_name);
-        category = findViewById(R.id.add_category);
-        preparationTime = findViewById(R.id.add_preparation_time);
-        cookTime = findViewById(R.id.add_cook_time);
-        description = findViewById(R.id.add_description);
-        ingredient = findViewById(R.id.add_ingredient);
-        step = findViewById(R.id.add_step);
-        comment = findViewById(R.id.add_comment);
-        source = findViewById(R.id.add_source);
-        url = findViewById(R.id.add_url);
-        videoUrl = findViewById(R.id.add_video_url);
-        save = findViewById(R.id.add_save);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View v = inflater.inflate(R.layout.fragment_add, container, false);
+
+        floatingActionButton = v.findViewById(R.id.fab_take_image);
+        image = v.findViewById(R.id.image_from_camera);
+        recipeName = v.findViewById(R.id.add_recipe_name);
+        category = v.findViewById(R.id.add_category);
+        preparationTime = v.findViewById(R.id.add_preparation_time);
+        cookTime = v.findViewById(R.id.add_cook_time);
+        description = v.findViewById(R.id.add_description);
+        ingredient = v.findViewById(R.id.add_ingredient);
+        step = v.findViewById(R.id.add_step);
+        comment = v.findViewById(R.id.add_comment);
+        source = v.findViewById(R.id.add_source);
+        url = v.findViewById(R.id.add_url);
+        videoUrl = v.findViewById(R.id.add_video_url);
+        save = v.findViewById(R.id.add_save);
 
         category.setInputType(InputType.TYPE_NULL);
 
@@ -138,6 +147,8 @@ public class AddActivity extends AppCompatActivity {
             }
         });
 
+        // Inflate the layout for this fragment
+        return v;
     }
 
     private void saveData() {
@@ -161,16 +172,16 @@ public class AddActivity extends AppCompatActivity {
 
                     if (!error) {
                         String recipe = jObj.getJSONObject("recipe").getString("name");
-                        Toast.makeText(getApplicationContext(), recipe + ", has been successfully saved!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), recipe + ", has been successfully saved!", Toast.LENGTH_SHORT).show();
 
                         // Launch login activity
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent intent = new Intent(getContext(), MainActivity.class);
                         startActivity(intent);
-                        finish();
+                        //finish();
                     } else {
 
                         String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -193,7 +204,7 @@ public class AddActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
                 Log.e(TAG, "Saving Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                 hideDialog();
 
                 //Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
@@ -223,7 +234,7 @@ public class AddActivity extends AppCompatActivity {
 
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
 
@@ -238,7 +249,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private void showCategoryDialog() {
-        AlertDialog.Builder categoryDialog = new AlertDialog.Builder(this);
+        AlertDialog.Builder categoryDialog = new AlertDialog.Builder(getContext());
 
         categoryDialog.setCancelable(false);
         categoryDialog.setTitle("Categories");
@@ -313,7 +324,7 @@ public class AddActivity extends AppCompatActivity {
 
     private void showPictureDialog() {
 
-        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
+        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getContext());
 
         String[] pictureDialogItems = {"Select photo from gallery", "Capture photo from camera"};
         pictureDialog.setTitle("Select Action");
@@ -356,14 +367,14 @@ public class AddActivity extends AppCompatActivity {
             if (data != null) {
                 Uri contentURI = data.getData();
                 try {
-                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                    bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), contentURI);
                     //String path = saveImage(bitmap);
-                    Toast.makeText(getApplicationContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
                     image.setImageBitmap(bitmap);
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Failed!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Failed!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -371,7 +382,7 @@ public class AddActivity extends AppCompatActivity {
             Bitmap thumbnail = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
             image.setImageBitmap(thumbnail);
             //saveImage(thumbnail);
-            Toast.makeText(getApplicationContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
         }
     }
 

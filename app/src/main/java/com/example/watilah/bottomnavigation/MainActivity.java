@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
+import android.support.design.internal.NavigationMenu;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -38,15 +40,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+import es.dmoral.toasty.Toasty;
+import io.github.yavski.fabspeeddial.FabSpeedDial;
+import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
-    SearchView searchView;
+public class MainActivity extends AppCompatActivity implements ArcNavigationView.OnNavigationItemSelectedListener {
+
+    /*SearchView searchView;
     List<Recipe> listRecipe = new ArrayList<>();
     RecyclerView recyclerView;
-    RecyclerViewAdapterRecipe recyclerViewAdapterRecipe;
+    RecyclerViewAdapterRecipe recyclerViewAdapterRecipe;*/
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
-    private ShimmerFrameLayout mShimmerViewContainer;
+    //private ShimmerFrameLayout mShimmerViewContainer;
 
     public Toolbar toolbar;
 
@@ -55,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
+        //mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
+
         toolbar = findViewById(R.id.toolbar_main);
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
         setSupportActionBar(toolbar);
@@ -71,45 +78,50 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
 
         ArcNavigationView arcNavigationView = findViewById(R.id.nav_view);
-        arcNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        arcNavigationView.setNavigationItemSelectedListener(this);
+
+        FabSpeedDial fabSpeedDial = findViewById(R.id.fab_more);
+        fabSpeedDial.setMenuListener(new SimpleMenuListenerAdapter() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            public boolean onPrepareMenu(NavigationMenu navigationMenu) {
 
-                int id = item.getItemId();
-
-                if (id == R.id.new_recipe) {
-                    Intent toAddActivity = new Intent(getApplicationContext(), AddActivity.class);
-                    startActivity(toAddActivity);
-                    return true;
-                }
-
-                if (id == R.id.saved_recipes) {
-                    Toast.makeText(getApplicationContext(), "Recipes", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-
-                DrawerLayout drawer = findViewById(R.id.drawer_layout);
-                drawer.closeDrawer(GravityCompat.START);
                 return true;
+            }
 
+            @Override
+            public boolean onMenuItemSelected(MenuItem menuItem) {
+
+                Toast.makeText(getApplicationContext(), "" + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+
+                return true;
+            }
+
+            @Override
+            public void onMenuClosed() {
+                super.onMenuClosed();
             }
         });
 
 
-        recyclerView = findViewById(R.id.recycler_view);
+        /*recyclerView = findViewById(R.id.recycler_view);
         recyclerViewAdapterRecipe = new RecyclerViewAdapterRecipe(this, listRecipe);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         //recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(recyclerViewAdapterRecipe);
+        recyclerView.setAdapter(recyclerViewAdapterRecipe);*/
 
         // Call json method
-        jsonCall();
+        //jsonCall();
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RecipeFragment()).commit();
+            arcNavigationView.setCheckedItem(R.id.saved_recipes);
+        }
 
     }
 
-    public void jsonCall() {
+    /*public void jsonCall() {
 
         String URL_JSON = "https://gist.githubusercontent.com/aws1994/f583d54e5af8e56173492d3f60dd5ebf/raw/c7796ba51d5a0d37fc756cf0fd14e54434c547bc/anime.json";
         JsonArrayRequest arrayRequest = new JsonArrayRequest(URL_JSON, new Response.Listener<JSONArray>() {
@@ -163,15 +175,6 @@ public class MainActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
         requestQueue.add(arrayRequest);
-    }
-
-    /*public void setRvAdapter(List<Recipe> listRecipe) {
-
-        recyclerViewAdapterRecipe = new RecyclerViewAdapterRecipe(this, listRecipe);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(recyclerViewAdapterRecipe);
-
     }*/
 
     @Override
@@ -180,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
         return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(final Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_search, menu);
@@ -213,9 +216,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         return true;
-    }
+    }*/
 
-    private List<Recipe> filter(List<Recipe> pl, String query) {
+    /*private List<Recipe> filter(List<Recipe> pl, String query) {
         query = query.toLowerCase();
         final List<Recipe> filteredModeList = new ArrayList<>();
 
@@ -232,9 +235,9 @@ public class MainActivity extends AppCompatActivity {
 
         return filteredModeList;
 
-    }
+    }*/
 
-    private void changeSearchViewTextColor(View view) {
+    /*private void changeSearchViewTextColor(View view) {
         if (view != null) {
 
             if (view instanceof TextView) {
@@ -252,9 +255,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
         mShimmerViewContainer.startShimmerAnimation();
@@ -264,6 +267,63 @@ public class MainActivity extends AppCompatActivity {
     public void onPause() {
         mShimmerViewContainer.stopShimmerAnimation();
         super.onPause();
+    }*/
+
+    @Override
+    public void onBackPressed() {
+
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        switch (item.getItemId()) {
+            case R.id.new_recipe:
+                // Create new fragment and transaction
+                AddFragment addFragment = new AddFragment();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack
+                fragmentTransaction.replace(R.id.fragment_container, addFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                break;
+            case R.id.saved_recipes:
+                // Create new fragment and transaction
+                RecipeFragment recipeFragment = new RecipeFragment();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack
+                fragmentTransaction.replace(R.id.fragment_container, recipeFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                break;
+            case R.id.shopping_list:
+                // Create new fragment and transaction
+                ShoppingFragment shoppingFragment = new ShoppingFragment();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack
+                fragmentTransaction.replace(R.id.fragment_container, shoppingFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                break;
+            case R.id.share:
+                Toasty.success(this, "Shared", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        //DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+
+    }
 }

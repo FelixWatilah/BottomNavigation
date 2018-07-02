@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Beatus</string>
     <string name="action_settings">Settings</string>
-    <string name="beatus_recipe">Beatus Recipe</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="hint_name">Full Name</string>
@@ -35,5 +34,11 @@
     <string name="saved_recipes">Saved Recipes</string>
     <string name="shopping_list">Shopping List</string>
     <string name="settings">Settings</string>
+    <string name="communicate">Communicate</string>
+    <string name="send">Send</string>
+    <string name="share">Share</string>
+    <string name="beatus_recipe">Beatus Recipe</string>
+    <string name="beatus_gmail_co_ke">beatus@gmail.co.ke</string>
+    <string name="nav_header_icon">Nav header icon</string>
 
 </resources>

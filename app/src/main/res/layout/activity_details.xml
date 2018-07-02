@@ -240,10 +240,10 @@
                     </LinearLayout>
 
                     <TextView
-                        android:layout_marginTop="8dp"
                         android:id="@+id/details_desc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:text="Description"
                         android:textColor="@color/colorSecondaryText" />
 
@@ -265,8 +265,8 @@
         android:focusable="true"
         android:src="@drawable/ic_add_black"
         app:backgroundTint="@color/colorAccent"
-        app:layout_anchor="@id/viewOne"
         app:fabSize="normal"
+        app:layout_anchor="@id/viewOne"
         app:layout_anchorGravity="bottom|right|end"
         app:rippleColor="#FFF" />
 

@@ -23,11 +23,11 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="top"
             android:background="@color/colorPrimary"
-            android:elevation="6dp"
+            android:elevation="4dp"
             android:gravity="center"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-        <com.facebook.shimmer.ShimmerFrameLayout
+        <!--<com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_view_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:orientation="vertical"
             shimmer:duration="800">
 
-            <!-- Adding 3 rows of placeholders -->
+            &lt;!&ndash; Adding 3 rows of placeholders &ndash;&gt;
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,17 +57,25 @@
 
             </LinearLayout>
 
-        </com.facebook.shimmer.ShimmerFrameLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>-->
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/toolbar_main"
-            android:layout_margin="4dp"
-            android:clickable="true"
-            android:focusable="true"
-            tools:layout_editor_absoluteY="62dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize">
+
+            <!--<android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/toolbar_main"
+                android:layout_margin="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                tools:layout_editor_absoluteY="62dp" />-->
+
+        </FrameLayout>
 
         <io.github.yavski.fabspeeddial.FabSpeedDial
             android:id="@+id/fab_more"
@@ -80,10 +88,10 @@
             app:fabDrawableTint="@android:color/white"
             app:fabGravity="bottom_end"
             app:fabMenu="@menu/menu_fab"
-            app:touchGuard="false"
             app:miniFabBackgroundTint="@android:color/white"
             app:miniFabDrawableTint="?attr/colorPrimaryDark"
-            app:miniFabTitleTextColor="?attr/colorPrimaryDark" />
+            app:miniFabTitleTextColor="?attr/colorPrimaryDark"
+            app:touchGuard="false" />
 
     </RelativeLayout>
 
@@ -95,9 +103,9 @@
         android:background="@android:color/white"
         android:fitsSystemWindows="true"
         app:arc_cropDirection="cropOutside"
-        app:arc_width="80dp"
+        app:arc_width="50dp"
         app:elevation="2dp"
-        app:headerLayout="@layout/header"
+        app:headerLayout="@layout/nav_header"
         app:itemBackground="@color/colorIcons"
         app:itemIconTint="@color/colorPrimaryDark"
         app:itemTextColor="@color/colorPrimaryText"
