@@ -1,42 +1,26 @@
 package com.example.watilah.bottomnavigation;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.InputType;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -44,22 +28,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import static android.app.Activity.RESULT_CANCELED;
 
 public class RecipeFragment extends Fragment {
 
+    SearchView searchView;
     List<Recipe> listRecipe = new ArrayList<>();
     RecyclerView recyclerView;
     RecyclerViewAdapterRecipe recyclerViewAdapterRecipe;
-
     private ShimmerFrameLayout mShimmerViewContainer;
 
     public RecipeFragment() {
@@ -106,8 +83,6 @@ public class RecipeFragment extends Fragment {
 
                 for (int i = 0; i < response.length(); i++) {
 
-                    //Toast.makeText(getApplicationContext(),String.valueOf(i),Toast.LENGTH_SHORT).show();
-
                     try {
 
                         jsonObject = response.getJSONObject(i);
@@ -151,6 +126,78 @@ public class RecipeFragment extends Fragment {
         requestQueue.add(arrayRequest);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_search, menu);
+        final MenuItem menuItem = menu.findItem(R.id.search);
+
+        searchView = (SearchView) menuItem.getActionView();
+
+        changeSearchViewTextColor(searchView);
+
+        ((EditText) searchView.findViewById(R.id.search_src_text)).setHintTextColor(getResources().getColor(R.color.colorIcons));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                if (!searchView.isIconified()) {
+                    searchView.setIconified(true);
+                }
+                menuItem.collapseActionView();
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                final List<Recipe> filterModelList = filter(listRecipe, newText);
+                recyclerViewAdapterRecipe.setFilter(filterModelList);
+                return true;
+            }
+        });
+    }
+
+    private List<Recipe> filter(List<Recipe> pl, String query) {
+        query = query.toLowerCase();
+        final List<Recipe> filteredModeList = new ArrayList<>();
+
+        for (Recipe model : pl) {
+
+            final String name = model.getName().toLowerCase();
+            final String desc = model.getDescription().toLowerCase();
+
+            if (name.contains(query) || desc.contains(query)) {
+                filteredModeList.add(model);
+            }
+
+        }
+
+        return filteredModeList;
+
+    }
+
+    private void changeSearchViewTextColor(View view) {
+        if (view != null) {
+
+            if (view instanceof TextView) {
+
+                ((TextView) view).setTextColor(Color.WHITE);
+
+            } else if (view instanceof ViewGroup) {
+
+                ViewGroup viewGroup = (ViewGroup) view;
+
+                for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                    changeSearchViewTextColor(viewGroup.getChildAt(i));
+                }
+
+            }
+
+        }
+    }
 
     @Override
     public void onResume() {

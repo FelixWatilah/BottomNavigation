@@ -104,7 +104,7 @@ public class LoginActivity extends Activity {
                     @Override
                     public void onResponse(String response) {
 
-                        //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
                         Log.d(TAG, "Register Response: " + response);
                         hideDialog();
 
@@ -113,10 +113,11 @@ public class LoginActivity extends Activity {
                             boolean error = jObj.getBoolean("error");
 
                             if (!error) {
-                                String user = jObj.getJSONObject("user").getString("name");
+                                //String user = jObj.getJSONObject("user").getString("name");
                                 // Launch User activity
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.putExtra("username", user);
+                                //intent.putExtra("username", user);
+                                //Toast.makeText(getApplicationContext(), user, Toast.LENGTH_LONG).show();
                                 startActivity(intent);
                                 finish();
                             } else {
@@ -138,7 +139,7 @@ public class LoginActivity extends Activity {
                         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                         hideDialog();
 
-                        //Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                     }
                 }) {
             @Override

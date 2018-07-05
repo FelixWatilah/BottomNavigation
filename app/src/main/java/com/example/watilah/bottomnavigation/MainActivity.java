@@ -1,6 +1,5 @@
 package com.example.watilah.bottomnavigation;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,33 +10,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.rom4ek.arcnavigationview.ArcNavigationView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
@@ -52,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements ArcNavigationView
     RecyclerViewAdapterRecipe recyclerViewAdapterRecipe;*/
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    ArcNavigationView arcNavigationView;
     //private ShimmerFrameLayout mShimmerViewContainer;
 
     public Toolbar toolbar;
@@ -70,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements ArcNavigationView
         Objects.requireNonNull(getSupportActionBar()).setTitle("Recipe");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setElevation(0);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
@@ -216,9 +196,9 @@ public class MainActivity extends AppCompatActivity implements ArcNavigationView
         });
 
         return true;
-    }*/
+    }
 
-    /*private List<Recipe> filter(List<Recipe> pl, String query) {
+    private List<Recipe> filter(List<Recipe> pl, String query) {
         query = query.toLowerCase();
         final List<Recipe> filteredModeList = new ArrayList<>();
 
@@ -235,9 +215,9 @@ public class MainActivity extends AppCompatActivity implements ArcNavigationView
 
         return filteredModeList;
 
-    }*/
+    }
 
-    /*private void changeSearchViewTextColor(View view) {
+    private void changeSearchViewTextColor(View view) {
         if (view != null) {
 
             if (view instanceof TextView) {
@@ -255,9 +235,9 @@ public class MainActivity extends AppCompatActivity implements ArcNavigationView
             }
 
         }
-    }*/
+    }
 
-    /*@Override
+    @Override
     public void onResume() {
         super.onResume();
         mShimmerViewContainer.startShimmerAnimation();
@@ -326,4 +306,5 @@ public class MainActivity extends AppCompatActivity implements ArcNavigationView
         return true;
 
     }
+
 }
