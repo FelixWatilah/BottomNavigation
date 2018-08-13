@@ -26,7 +26,6 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         </android.support.v7.widget.Toolbar>
-
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
@@ -39,15 +38,22 @@
             android:id="@+id/linear_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:orientation="vertical">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_gravity="center"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="5dp">
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="5dp"
+                app:cardUseCompatPadding="true">
 
                 <ImageView
                     android:id="@+id/image_from_camera"
@@ -63,10 +69,15 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                app:cardCornerRadius="5dp">
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -101,6 +112,7 @@
                             android:clickable="true"
                             android:drawablePadding="8dp"
                             android:drawableStart="@drawable/ic_label_black_24dp"
+                            android:focusable="true"
                             android:focusableInTouchMode="false"
                             android:hint="Category"
                             android:inputType="none" />
@@ -137,94 +149,216 @@
 
                     </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
+                    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/add_description"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawablePadding="8dp"
-                            android:drawableStart="@drawable/ic_description"
-                            android:hint="Description" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="8dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:drawablePadding="8dp"
-                            android:drawableStart="@drawable/ic_free_breakfast"
-                            android:text="Ingredients"
-                            android:textAllCaps="true"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textStyle="bold" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/colorDivider" />
+                        android:layout_height="wrap_content">
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp">
+                            android:layout_marginTop="8dp"
+                            android:layout_toStartOf="@id/mic">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/add_description"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="8dp"
+                                android:drawableStart="@drawable/ic_description"
+                                android:hint="Description" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <ImageButton
+                            android:id="@+id/mic"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:background="@android:color/transparent"
+                            android:padding="4dp"
+                            android:src="@drawable/ic_mic" />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:background="@color/colorPrimaryDark"
+                        android:drawablePadding="8dp"
+                        android:drawableTint="@color/colorIcons"
+                        android:padding="8dp"
+                        android:text="Ingredients"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorIcons"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingEnd="8dp"
+                        android:paddingStart="8dp">
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/ingredient_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="8dp"
+                        android:paddingStart="8dp">
+
+                        <ImageButton
+                            android:id="@+id/btn_add_ingredient"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/button_add"
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_add" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@id/btn_add_ingredient">
 
                             <android.support.design.widget.TextInputEditText
                                 android:id="@+id/add_ingredient"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Ingredient(s)" />
+                                android:layout_alignParentStart="true"
+                                android:hint="@string/ingredient_s" />
 
                         </android.support.design.widget.TextInputLayout>
+                    </RelativeLayout>
 
-                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:background="@color/colorPrimaryDark"
+                        android:drawablePadding="8dp"
+                        android:drawableTint="@color/colorIcons"
+                        android:padding="8dp"
+                        android:text="Steps"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorIcons"
+                        android:textStyle="bold" />
 
                     <LinearLayout
+                        android:id="@+id/container_step"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="8dp">
+                        android:paddingEnd="8dp"
+                        android:paddingStart="8dp">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:drawablePadding="8dp"
-                            android:drawableStart="@drawable/ic_directions"
-                            android:text="Directions"
-                            android:textAllCaps="true"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textStyle="bold" />
+                    </LinearLayout>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/colorDivider" />
+                    <RelativeLayout
+                        android:id="@+id/steps_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:paddingEnd="8dp"
+                        android:paddingStart="8dp">
+
+                        <ImageButton
+                            android:id="@+id/btn_add_step"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/button_add"
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_add" />
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp">
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@id/btn_add_step">
 
                             <android.support.design.widget.TextInputEditText
                                 android:id="@+id/add_step"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
                                 android:hint="Step(s)" />
 
                         </android.support.design.widget.TextInputLayout>
+                    </RelativeLayout>
 
-                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -288,27 +422,24 @@
                             android:inputType="text" />
 
                     </android.support.design.widget.TextInputLayout>
-
-                    <Button
-                        android:id="@+id/add_save"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/button"
-                        android:clickable="true"
-                        android:text="SAVE"
-                        android:textColor="#ffffff"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
                 </LinearLayout>
-
             </android.support.v7.widget.CardView>
 
-        </LinearLayout>
+            <Button
+                android:id="@+id/add_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button"
+                android:clickable="true"
+                android:elevation="5dp"
+                android:focusable="true"
+                android:text="SAVE"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
 
+        </LinearLayout>
     </ScrollView>
 
     <android.support.design.widget.FloatingActionButton

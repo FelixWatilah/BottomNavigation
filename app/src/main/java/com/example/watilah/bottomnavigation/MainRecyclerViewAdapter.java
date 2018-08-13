@@ -1,4 +1,4 @@
 package com.example.watilah.bottomnavigation;
 
-public class myAppGlideModule {
+public class MainRecyclerViewAdapter {
 }
