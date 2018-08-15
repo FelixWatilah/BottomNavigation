@@ -40,5 +40,30 @@
     <string name="beatus_recipe">Beatus Recipe</string>
     <string name="beatus_gmail_co_ke">beatus@gmail.co.ke</string>
     <string name="nav_header_icon">Nav header icon</string>
+    <string name="add_field">Add Field</string>
+    <string name="remove">Remove</string>
+    <string name="steps">Steps</string>
+    <string name="step_s">Step(s)</string>
+    <string name="ingredient_s">Ingredient(s)</string>
+    <string name="measure">Measurements</string>
+    <string name="search">Search...</string>
+    <string name="shopping">You have been asked to create a PowerPoint presentation on a training method for executives at American Express Global Travel Company. Use the adult learning training method to complete this presentation
+
+In your PowerPoint presentation, include the following points:
+1.Explanation of the training method;
+2. How your organization can implement it;
+3. The benefits of this method;
+4. The potential barriers to this method and how you can overcome them;
+5. How you will present this information (in a traditional format, computer-based,
+e-learning model, or a combination),
+6. An explanation of that method, and the reasons why; and
+any additional information you feel may be helpful.
+
+Your presentation must be at least 10 slides in length, not including the title and reference slides. You are required to use  the notes section. Within the notes section, include additional explanations. As  you write your presentation, keep in mind that you are presenting for executives at your organization. All sources used, must be cited and referenced according to APA guidelines
+</string>
+    <string name="delete">DELETE</string>
+    <string name="food_name">Food Name</string>
+    <string name="category">Category</string>
+    <string name="update">UPDATE</string>
 
 </resources>

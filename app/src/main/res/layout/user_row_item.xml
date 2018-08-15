@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_layout"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:padding="2dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="4"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Name"
+            android:textColor="@color/colorPrimaryText" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="4"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Email"
+            android:textColor="@color/colorPrimaryText" />
+
+        <TextView
+            android:id="@+id/usertype"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="2"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="User"
+            android:textColor="@color/colorPrimaryText" />
+
+        <!--<LinearLayout
+            android:id="@+id/action"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:weightSum="10"
+            android:orientation="horizontal"
+            android:textColor="@color/colorSecondaryText">
+
+            <ImageView
+
+                android:layout_weight="5"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:tint="@color/colorAccent"
+                android:src="@drawable/ic_edit" />
+
+            <ImageView
+                android:layout_weight="5"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:foregroundGravity="center"
+                android:src="@drawable/ic_delete"
+                android:tint="@color/colorPrimaryDark" />
+
+        </LinearLayout>-->
+    </LinearLayout>
+
+</LinearLayout>

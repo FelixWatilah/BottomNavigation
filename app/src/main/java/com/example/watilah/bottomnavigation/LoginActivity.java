@@ -8,7 +8,6 @@ import android.support.design.widget.TextInputEditText;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -17,6 +16,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.watilah.bottomnavigation.helper.SQLiteHandler;
+import com.example.watilah.bottomnavigation.helper.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +34,9 @@ public class LoginActivity extends Activity {
 
     private String email, password;
 
+    private SessionManager session;
+    private SQLiteHandler db;
+
     //String LOGIN_URL = "http://10.0.2.2/CRUD/login.php";
 
     @Override
@@ -44,22 +48,29 @@ public class LoginActivity extends Activity {
         mLogPassword = findViewById(R.id.log_password);
 
         Button mLogBtn = findViewById(R.id.log_btn);
-        TextView mToRegister = findViewById(R.id.toRegister);
-        TextView mMore = findViewById(R.id.more);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-        // More button Click Event
-        mMore.setOnClickListener(new View.OnClickListener() {
+        // SQLite database handler
+        db = new SQLiteHandler(getApplicationContext());
 
-            @Override
-            public void onClick(View view) {
-                Intent toMainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(toMainIntent);
-            }
-        });
+        // Session manager
+        session = new SessionManager(getApplicationContext());
+
+        // Check if user is already logged in or not
+        if (session.isLoggedIn() && session.isUserType() == 1) {
+            // User is already logged in. Take him to main activity
+            Intent intentDash = new Intent(LoginActivity.this, DashboardActivity.class);
+            startActivity(intentDash);
+            finish();
+        } else if (session.isLoggedIn() && session.isUserType() == 0) {
+            // User is already logged in. Take him to main activity
+            Intent intentMain = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intentMain);
+            finish();
+        }
 
         // Login button Click Event
         mLogBtn.setOnClickListener(new View.OnClickListener() {
@@ -71,21 +82,17 @@ public class LoginActivity extends Activity {
                 if (!email.isEmpty() && !password.isEmpty()) {
                     login(email, password);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Please enter your details!", Toast.LENGTH_LONG).show();
+                    if (email.isEmpty()) {
+                        mLogEmail.setError("Email required.");
+                    }
+                    if (password.isEmpty()) {
+                        mLogPassword.setError("Password required.");
+                    }
+
                 }
 
             }
 
-        });
-
-        // Link to Register Screen
-        mToRegister.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                Intent toRegisterIntent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(toRegisterIntent);
-                finish();
-            }
         });
 
     }
@@ -95,7 +102,7 @@ public class LoginActivity extends Activity {
 
         // Tag used to cancel the request
         String cancel_req_tag = "login";
-        pDialog.setMessage("Logging you in...");
+        pDialog.setMessage("Logging in " + email + "...");
         showDialog();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_LOGIN,
@@ -104,8 +111,8 @@ public class LoginActivity extends Activity {
                     @Override
                     public void onResponse(String response) {
 
-                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "Register Response: " + response);
+                        //Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "Login Response: " + response);
                         hideDialog();
 
                         try {
@@ -113,13 +120,39 @@ public class LoginActivity extends Activity {
                             boolean error = jObj.getBoolean("error");
 
                             if (!error) {
-                                //String user = jObj.getJSONObject("user").getString("name");
-                                // Launch User activity
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                //intent.putExtra("username", user);
-                                //Toast.makeText(getApplicationContext(), user, Toast.LENGTH_LONG).show();
-                                startActivity(intent);
-                                finish();
+
+
+                                // Now store the user in SQLite
+                                String uid = jObj.getString("uid");
+                                int userType = jObj.getInt("usertype");
+
+                                // user successfully logged in
+                                // Create login session
+                                session.setLogin(true, userType);
+
+                                JSONObject user = jObj.getJSONObject("user");
+
+                                String name = user.getString("name");
+                                String email = user.getString("email");
+                                String created_at = user.getString("created_at");
+
+                                // Inserting row in users table
+                                db.addUser(name, email, uid, created_at);
+
+                                // Check if user is already logged in or not
+                                if (session.isUserType() == 1) {
+                                    // User is already logged in. Take him to main activity
+                                    Intent intentDash = new Intent(LoginActivity.this, DashboardActivity.class);
+                                    startActivity(intentDash);
+                                    finish();
+                                } else if (session.isUserType() == 0) {
+                                    // User is already logged in. Take him to main activity
+                                    Intent intentMain = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intentMain);
+                                    finish();
+                                }
+
+
                             } else {
 
                                 String errorMsg = jObj.getString("error_msg");

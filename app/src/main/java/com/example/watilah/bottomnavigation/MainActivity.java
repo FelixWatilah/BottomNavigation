@@ -1,179 +1,185 @@
 package com.example.watilah.bottomnavigation;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.internal.NavigationMenu;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.rom4ek.arcnavigationview.ArcNavigationView;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.watilah.bottomnavigation.helper.SQLiteHandler;
+import com.example.watilah.bottomnavigation.helper.SessionManager;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-import es.dmoral.toasty.Toasty;
-import io.github.yavski.fabspeeddial.FabSpeedDial;
-import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
+public class MainActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity implements ArcNavigationView.OnNavigationItemSelectedListener {
-
-    /*SearchView searchView;
-    List<Recipe> listRecipe = new ArrayList<>();
-    RecyclerView recyclerView;
-    RecyclerViewAdapterRecipe recyclerViewAdapterRecipe;*/
-    DrawerLayout drawerLayout;
-    ActionBarDrawerToggle actionBarDrawerToggle;
-    ArcNavigationView arcNavigationView;
-    //private ShimmerFrameLayout mShimmerViewContainer;
-
-    public Toolbar toolbar;
+    private SearchView searchView;
+    private List<MainRecipe> listMainRecipe;
+    private RecyclerView recyclerView;
+    private MainRecyclerViewAdapter mainRecyclerViewAdapter;
+    private ShimmerFrameLayout mShimmerViewContainer;
+    private Toolbar toolbarMain;
+    private SQLiteHandler db;
+    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
+        toolbarMain = findViewById(R.id.toolbar_main);
+        mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
+        recyclerView = findViewById(R.id.main_recycler_view);
+        listMainRecipe = new ArrayList<>();
+        mainRecyclerViewAdapter = new MainRecyclerViewAdapter(getApplicationContext(), listMainRecipe);
 
-        toolbar = findViewById(R.id.toolbar_main);
-        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbarMain);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Recipes");
+        toolbarMain.setTitleTextColor(Color.parseColor("#FFFFFF"));
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Recipe");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setElevation(0);
-
-        drawerLayout = findViewById(R.id.drawer_layout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
-        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-
-        ArcNavigationView arcNavigationView = findViewById(R.id.nav_view);
-        arcNavigationView.setNavigationItemSelectedListener(this);
-
-        FabSpeedDial fabSpeedDial = findViewById(R.id.fab_more);
-        fabSpeedDial.setMenuListener(new SimpleMenuListenerAdapter() {
-            @Override
-            public boolean onPrepareMenu(NavigationMenu navigationMenu) {
-
-                return true;
-            }
-
-            @Override
-            public boolean onMenuItemSelected(MenuItem menuItem) {
-
-                Toast.makeText(getApplicationContext(), "" + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-
-                return true;
-            }
-
-            @Override
-            public void onMenuClosed() {
-                super.onMenuClosed();
-            }
-        });
-
-
-        /*recyclerView = findViewById(R.id.recycler_view);
-        recyclerViewAdapterRecipe = new RecyclerViewAdapterRecipe(this, listRecipe);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        //recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(recyclerViewAdapterRecipe);*/
-
-        // Call json method
-        //jsonCall();
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RecipeFragment()).commit();
-            arcNavigationView.setCheckedItem(R.id.saved_recipes);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new MyDividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL, 16));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(mainRecyclerViewAdapter);
+
+        // SqLite database handler
+        db = new SQLiteHandler(getApplicationContext());
+
+        // session manager
+        session = new SessionManager(getApplicationContext());
+
+        // Check if user is already logged in or not
+        if (!session.isLoggedIn()) {
+            logoutUser();
+        }
+
+
+        jsonCall();
 
     }
 
-    /*public void jsonCall() {
+    public void jsonCall() {
 
-        String URL_JSON = "https://gist.githubusercontent.com/aws1994/f583d54e5af8e56173492d3f60dd5ebf/raw/c7796ba51d5a0d37fc756cf0fd14e54434c547bc/anime.json";
-        JsonArrayRequest arrayRequest = new JsonArrayRequest(URL_JSON, new Response.Listener<JSONArray>() {
+        StringRequest arrayRequest = new StringRequest(Request.Method.GET, AppConfig.URL_RETRIEVE, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONArray response) {
+            public void onResponse(String response) {
 
-                JSONObject jsonObject;
+                if (response == null) {
+                    Toast.makeText(getApplicationContext(), "Couldn't fetch the recipes! Please try again.", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
-                for (int i = 0; i < response.length(); i++) {
+                try {
 
-                    //Toast.makeText(getApplicationContext(),String.valueOf(i),Toast.LENGTH_SHORT).show();
+                    JSONArray array = new JSONArray(response);
 
-                    try {
+                    //listMainRecipe.clear();
 
-                        jsonObject = response.getJSONObject(i);
-                        Recipe recipe = new Recipe();
+                    for (int i = 0; i < array.length(); i++) {
 
-                        recipe.setName(jsonObject.getString("name"));
-                        recipe.setCategory(jsonObject.getString("categorie"));
-                        recipe.setDescription(jsonObject.getString("description"));
-                        recipe.setThumbnail(jsonObject.getString("img"));
+                        JSONObject jsonObject = array.getJSONObject(i);
 
-                        //Toast.makeText(MainActivity.this,recipe.toString(),Toast.LENGTH_SHORT).show();
+                        listMainRecipe.add(new MainRecipe(
+                                jsonObject.getString("name"),
+                                jsonObject.getString("category"),
+                                jsonObject.getString("description"),
+                                jsonObject.getString("image"),
+                                jsonObject.getString("preptime"),
+                                jsonObject.getString("cooktime"),
+                                jsonObject.getString("ingredient"),
+                                jsonObject.getString("step"),
+                                jsonObject.getString("comment"),
+                                jsonObject.getString("source"),
+                                jsonObject.getString("url"),
+                                jsonObject.getString("videourl")
 
-                        listRecipe.add(recipe);
+                        ));
 
                         // refreshing recycler view
-                        recyclerViewAdapterRecipe.notifyDataSetChanged();
+                        mainRecyclerViewAdapter.notifyDataSetChanged();
 
                         // stop animating Shimmer and hide the layout
                         mShimmerViewContainer.stopShimmerAnimation();
                         mShimmerViewContainer.setVisibility(View.GONE);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-
-                Toast.makeText(MainActivity.this, "Size of List" + String.valueOf(listRecipe.size()), Toast.LENGTH_SHORT).show();
-                //Toast.makeText(MainActivity.this, listRecipe.get(1).toString(), Toast.LENGTH_SHORT).show();
-
-                //setRvAdapter(listRecipe);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(arrayRequest);
-    }*/
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                logoutUser();
+                break;
+            case android.R.id.home:
+                finish();
+                break;
+        }
+
+
+        return true;
+
     }
 
-    /*@Override
+    @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
 
+
         getMenuInflater().inflate(R.menu.menu_search, menu);
-        final MenuItem menuItem = menu.findItem(R.id.search);
+        getMenuInflater().inflate(R.menu.menu_logout, menu);
+        final MenuItem menuItem = menu.findItem(R.id.search_view);
 
         searchView = (SearchView) menuItem.getActionView();
 
         changeSearchViewTextColor(searchView);
-
-        ((EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text)).setHintTextColor(getResources().getColor(R.color.colorIcons));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -189,8 +195,8 @@ public class MainActivity extends AppCompatActivity implements ArcNavigationView
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                final List<Recipe> filterModelList = filter(listRecipe, newText);
-                recyclerViewAdapterRecipe.setFilter(filterModelList);
+                final List<MainRecipe> filterModelList = filter(listMainRecipe, newText);
+                mainRecyclerViewAdapter.setFilter(filterModelList);
                 return true;
             }
         });
@@ -198,11 +204,11 @@ public class MainActivity extends AppCompatActivity implements ArcNavigationView
         return true;
     }
 
-    private List<Recipe> filter(List<Recipe> pl, String query) {
+    private List<MainRecipe> filter(List<MainRecipe> pl, String query) {
         query = query.toLowerCase();
-        final List<Recipe> filteredModeList = new ArrayList<>();
+        final List<MainRecipe> filteredModeList = new ArrayList<>();
 
-        for (Recipe model : pl) {
+        for (MainRecipe model : pl) {
 
             final String name = model.getName().toLowerCase();
             final String desc = model.getDescription().toLowerCase();
@@ -247,64 +253,23 @@ public class MainActivity extends AppCompatActivity implements ArcNavigationView
     public void onPause() {
         mShimmerViewContainer.stopShimmerAnimation();
         super.onPause();
-    }*/
+    }
 
-    @Override
-    public void onBackPressed() {
+    private void logoutUser() {
+        session.setLogin(false, 2);
 
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        db.deleteUsers();
+
+        // Launching the login activity
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        switch (item.getItemId()) {
-            case R.id.new_recipe:
-                // Create new fragment and transaction
-                AddFragment addFragment = new AddFragment();
-
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack
-                fragmentTransaction.replace(R.id.fragment_container, addFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-                break;
-            case R.id.saved_recipes:
-                // Create new fragment and transaction
-                RecipeFragment recipeFragment = new RecipeFragment();
-
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack
-                fragmentTransaction.replace(R.id.fragment_container, recipeFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-                break;
-            case R.id.shopping_list:
-                // Create new fragment and transaction
-                ShoppingFragment shoppingFragment = new ShoppingFragment();
-
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack
-                fragmentTransaction.replace(R.id.fragment_container, shoppingFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-                break;
-            case R.id.share:
-                Toasty.success(this, "Shared", Toast.LENGTH_SHORT).show();
-                break;
-        }
-
-        //DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawerLayout.closeDrawer(GravityCompat.START);
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
         return true;
-
     }
 
 }

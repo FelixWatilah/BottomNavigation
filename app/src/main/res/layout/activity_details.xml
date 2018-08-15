@@ -20,6 +20,7 @@
             android:id="@+id/collapsing"
             android:layout_width="match_parent"
             android:layout_height="250dp"
+            android:background="@color/colorPrimaryDark"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginEnd="64dp"
@@ -30,12 +31,14 @@
                 android:id="@+id/img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="toolbar image"
                 android:scaleType="centerCrop" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimaryDark"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -44,175 +47,48 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/viewOne"
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <android.support.v7.widget.CardView
+                android:id="@+id/card_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="32dp"
                 android:clickable="true"
+                android:focusable="true"
                 android:foreground="?android:selectableItemBackground"
-                app:cardCornerRadius="4dp">
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="4dp">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Ingredients"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/colorDivider" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Ingredients"
-                        android:textColor="@color/colorSecondaryText" />
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="4dp"
-                android:clickable="true"
-                android:foreground="?android:selectableItemBackground"
-                app:cardCornerRadius="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Procedure"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/colorDivider" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Procedure"
-                        android:textColor="@color/colorSecondaryText" />
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="4dp"
-                android:clickable="true"
-                android:foreground="?android:selectableItemBackground"
-                app:cardCornerRadius="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Nutrition"
-                        android:textColor="@color/colorPrimaryText"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/colorDivider" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Nutrition"
-                        android:textColor="@color/colorSecondaryText" />
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="4dp"
-                android:clickable="true"
-                android:foreground="?android:selectableItemBackground"
-                app:cardCornerRadius="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:orientation="vertical">
-
-                    <TextView
+                        android:id="@+id/desc_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawablePadding="8dp"
-                        android:drawableStart="@drawable/ic_description"
                         android:text="Description"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="20sp" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginBottom="4dp"
+                        android:layout_marginBottom="8dp"
                         android:layout_marginTop="8dp"
                         android:background="@color/colorDivider" />
 
@@ -247,27 +123,311 @@
                         android:text="Description"
                         android:textColor="@color/colorSecondaryText" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/colorDivider" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/preptime"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawablePadding="4dp"
+                            android:drawableTop="@drawable/ic_timer"
+                            android:gravity="center"
+                            android:text="Prep: 0 min"
+                            android:textColor="@color/colorSecondaryText"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/cooktime"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawablePadding="4dp"
+                            android:drawableTop="@drawable/ic_access_time"
+                            android:gravity="center"
+                            android:text="Cook: 0 min"
+                            android:textColor="@color/colorSecondaryText"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawablePadding="4dp"
+                            android:drawableTop="@drawable/ic_local_dining"
+                            android:gravity="center"
+                            android:text="Serve: 3"
+                            android:textColor="@color/colorSecondaryText"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_ing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_desc"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
+                app:cardUseCompatPadding="true">
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical"
+                    android:padding="4dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ingredients"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="20sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/colorDivider" />
+
+                    <TextView
+                        android:id="@+id/ingredients"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ingredients"
+                        android:textColor="@color/colorSecondaryText" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_steps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_ing"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical"
+                    android:padding="4dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Instructions"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="20sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/colorDivider" />
+
+                    <TextView
+                        android:id="@+id/steps"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Steps"
+                        android:textColor="@color/colorSecondaryText" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_more_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_steps"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical"
+                    android:padding="4dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="More information"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="20sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/colorDivider" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Comment"
+                            android:textColor="@color/colorSecondaryText"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/comment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Comment"
+                            android:textColor="@color/colorSecondaryText" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/colorDivider" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Source: "
+                            android:textColor="@color/colorSecondaryText"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/source"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:text="source"
+                            android:textColor="@color/colorSecondaryText" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Url: "
+                            android:textColor="@color/colorSecondaryText"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/url"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:autoLink="web"
+                            android:text="www.url.com"
+                            android:textColor="@color/colorSecondaryText" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Video Url: "
+                            android:textColor="@color/colorSecondaryText"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/videourl"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:autoLink="web"
+                            android:text="www.videourl.com?video=mdj4redV"
+                            android:textColor="@color/colorSecondaryText" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingButton"
-        android:layout_width="wrap_content"
+        android:id="@+id/fab_fav"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_add_black"
-        app:backgroundTint="@color/colorAccent"
+        app:fabSize="mini"
+        app:layout_anchor="@+id/appBar"
+        app:layout_anchorGravity="left|bottom"
+        app:rippleColor="@color/colorPrimaryDark"
+        app:srcCompat="@drawable/ic_favorite_border"
+        app:useCompatPadding="true" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_speech"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
         app:fabSize="normal"
-        app:layout_anchor="@id/viewOne"
-        app:layout_anchorGravity="bottom|right|end"
-        app:rippleColor="#FFF" />
+        app:layout_anchor="@+id/nestedScrollView"
+        app:layout_anchorGravity="right|bottom"
+        app:rippleColor="@color/colorPrimaryDark"
+        app:srcCompat="@drawable/ic_volume"
+        app:useCompatPadding="true" />
 
 </android.support.design.widget.CoordinatorLayout>

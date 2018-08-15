@@ -1,4 +1,8 @@
 package com.example.watilah.bottomnavigation;
 
-public class myAppGlideModule {
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.module.AppGlideModule;
+
+@GlideModule
+public final class myAppGlideModule extends AppGlideModule {
 }

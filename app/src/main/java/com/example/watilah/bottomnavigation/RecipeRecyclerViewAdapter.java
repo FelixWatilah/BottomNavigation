@@ -11,18 +11,21 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.example.watilah.bottomnavigation.helper.SQLiteHandler;
+import com.google.gson.internal.bind.SqlDateTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewAdapterRecipe extends RecyclerView.Adapter<RecyclerViewAdapterRecipe.MyViewHolder> {
+public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.MyViewHolder> {
 
     private Context context;
     private List<Recipe> recipeList;
 
-    RecyclerViewAdapterRecipe(Context context, List<Recipe> recipeList) {
+    RecipeRecyclerViewAdapter(Context context, List<Recipe> recipeList) {
         this.context = context;
         this.recipeList = recipeList;
     }
@@ -31,7 +34,7 @@ public class RecyclerViewAdapterRecipe extends RecyclerView.Adapter<RecyclerView
 
         public TextView tv_food_name, tv_food_desc, tv_food_category;
         public ImageView img_food_thumbnail;
-        public FrameLayout linearLayout;
+        public FrameLayout frameLayout;
         public RelativeLayout viewBackground, viewForeground;
 
         public MyViewHolder(View itemView) {
@@ -41,12 +44,11 @@ public class RecyclerViewAdapterRecipe extends RecyclerView.Adapter<RecyclerView
             tv_food_desc = itemView.findViewById(R.id.food_desc);
             tv_food_category = itemView.findViewById(R.id.food_category);
             img_food_thumbnail = itemView.findViewById(R.id.food_image);
-            linearLayout = itemView.findViewById(R.id.frame_layout);
+            frameLayout = itemView.findViewById(R.id.frame_layout);
             viewForeground = itemView.findViewById(R.id.view_foreground);
             viewBackground = itemView.findViewById(R.id.view_background);
 
         }
-
 
     }
 
@@ -73,11 +75,12 @@ public class RecyclerViewAdapterRecipe extends RecyclerView.Adapter<RecyclerView
         final String source = recipeList.get(position).getSource();
         final String url = recipeList.get(position).getUrl();
         final String videourl = recipeList.get(position).getVideourl();
+        final String uid = recipeList.get(position).getUid();
+        final String id = recipeList.get(position).getId();
 
         holder.tv_food_name.setText(recipeList.get(position).getName());
         holder.tv_food_category.setText(recipeList.get(position).getCategory());
         holder.tv_food_desc.setText(recipeList.get(position).getDescription());
-
 
         // Load Image with glide
         GlideApp.with(context)
@@ -89,13 +92,15 @@ public class RecyclerViewAdapterRecipe extends RecyclerView.Adapter<RecyclerView
                 .into(holder.img_food_thumbnail);
 
         // Set OnclickListener
-        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+        holder.frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent intent = new Intent(context, DetailsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
+                intent.putExtra("id", id);
+                intent.putExtra("uid", uid);
                 intent.putExtra("Image", imgUrl);
                 intent.putExtra("Title", recipeList.get(position).getName());
                 intent.putExtra("Category", recipeList.get(position).getCategory());
@@ -111,11 +116,8 @@ public class RecyclerViewAdapterRecipe extends RecyclerView.Adapter<RecyclerView
 
                 context.startActivity(intent);
 
-
             }
         });
-
-
     }
 
     @Override
@@ -123,24 +125,23 @@ public class RecyclerViewAdapterRecipe extends RecyclerView.Adapter<RecyclerView
         return recipeList.size();
     }
 
-    public void removeItem(int position) {
-        recipeList.remove(position);
-        // notify the item removed by position
-        // to perform recycler view delete animations
-        // NOTE: don't call notifyDataSetChanged()
-        notifyItemChanged(position);
-    }
-
-    public void restoreItem(Recipe recipe, int position) {
-        recipeList.add(position, recipe);
-        // notify item added by position
-        notifyItemInserted(position);
-    }
-
     public void setFilter(List<Recipe> recipeList) {
         this.recipeList = new ArrayList<>();
         this.recipeList.addAll(recipeList);
         notifyDataSetChanged();
+    }
+
+    public void removeItem(int position) {
+        recipeList.remove(position);
+        // notify the item removed by position to perform recycler view delete animations
+        // NOTE: don't call notifyDataSetChanged()
+        notifyItemChanged(position);
+    }
+
+    public void restoreItem(int position, Recipe recipe) {
+        recipeList.add(position, recipe);
+        // notify item added by position
+        notifyItemInserted(position);
     }
 
 

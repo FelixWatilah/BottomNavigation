@@ -6,19 +6,34 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/new_recipe"
+            android:id="@+id/menu_new_recipe"
             android:icon="@drawable/ic_add_black"
             android:title="@string/new_recipe" />
 
         <item
-            android:id="@+id/saved_recipes"
+            android:id="@+id/menu_saved_recipes"
             android:icon="@drawable/ic_local_dining"
             android:title="@string/saved_recipes" />
 
         <item
-            android:id="@+id/shopping_list"
+            android:id="@+id/menu_shopping_list"
             android:icon="@drawable/ic_view_list_black_24dp"
             android:title="@string/shopping_list" />
+
+        <!--<item
+            android:id="@+id/menu_ingredients"
+            android:icon="@drawable/ic_ingredient"
+            android:title="@string/ingredients" />
+
+        <item
+            android:id="@+id/menu_category"
+            android:icon="@drawable/ic_category"
+            android:title="Food Category" />
+
+        <item
+            android:id="@+id/menu_measure"
+            android:icon="@drawable/ic_measure"
+            android:title="@string/measure" />-->
 
     </group>
 

@@ -9,17 +9,17 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         android:background="@color/colorPrimaryDark"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:contentDescription="@string/logo"
-            android:src="@drawable/java" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/masala_chicken" />
 
     </LinearLayout>
 
@@ -29,12 +29,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:foreground="?android:selectableItemBackground"
         app:cardCornerRadius="5dp"
-        app:cardElevation="5dp">
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/sign_up"
                 android:textAllCaps="true"
-                android:textColor="@color/colorSecondaryText"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -73,7 +73,7 @@
                     android:drawableStart="@drawable/ic_person_black_24dp"
                     android:focusable="true"
                     android:hint="Name"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textColorHint="@color/colorPrimaryDark" />
 
@@ -101,14 +101,16 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorPrimaryDark">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/reg_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="16dp"
-                    android:drawableStart="@drawable/ic_lock_black_24dp"
+                    android:drawableStart="@drawable/ic_vpn_key"
                     android:focusable="true"
                     android:hint="Password"
                     android:inputType="textPassword"
@@ -118,63 +120,98 @@
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="User: "
+                    android:textColor="@color/colorPrimaryText"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/rg_user"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_admin"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Admin"
+                        android:textColor="@color/colorSecondaryText" />
+
+                    <RadioButton
+                        android:id="@+id/rb_chef"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Chef"
+                        android:textColor="@color/colorSecondaryText" />
+
+
+                </RadioGroup>
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/register"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="sans-serif"
+                android:foreground="?android:selectableItemBackground"
+                android:text="Register"
+                android:textColor="@color/colorIcons"
+                android:textStyle="bold" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:textAlignment="center">
 
-                <Button
-                    android:id="@+id/register"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/button"
                     android:clickable="true"
                     android:focusable="true"
                     android:fontFamily="sans-serif"
-                    android:foreground="?android:selectableItemBackground"
-                    android:text="Register"
-                    android:textColor="@color/colorIcons"
-                    android:textStyle="bold" />
+                    android:text="Already have an account? "
+                    android:textColor="@color/colorSecondaryText" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/login"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:textAlignment="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:fontFamily="sans-serif"
-                        android:text="Already have an account? "
-                        android:textColor="@color/colorSecondaryText" />
-
-                    <TextView
-                        android:id="@+id/login"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:fontFamily="sans-serif"
-                        android:text="Log in here."
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif"
+                    android:text="Log in here."
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
         </LinearLayout>
+
     </android.support.v7.widget.CardView>
 
 </RelativeLayout>

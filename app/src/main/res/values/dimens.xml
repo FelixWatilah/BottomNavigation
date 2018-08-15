@@ -13,7 +13,7 @@
 
     <!-- Dimensions for shimmer placeholder -->
     <dimen name="activity_padding">16dp</dimen>
-    <dimen name="placeholder_image">120dp</dimen>
+    <dimen name="placeholder_image">150dp</dimen>
     <dimen name="placeholder_text_height">8dp</dimen>
     <dimen name="activity_padding_horizontal">16dp</dimen>
     <dimen name="padding_10">10dp</dimen>

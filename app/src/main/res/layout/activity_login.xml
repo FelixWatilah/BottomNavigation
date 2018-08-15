@@ -10,17 +10,17 @@
     <LinearLayout
         android:id="@+id/linear1"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         android:background="@color/colorPrimaryDark"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:scaleType="centerCrop"
             android:contentDescription="@string/logo"
-            android:src="@drawable/java" />
+            android:src="@drawable/cakeee" />
 
     </LinearLayout>
 
@@ -30,12 +30,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
-        android:foreground="?android:selectableItemBackground"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         app:cardCornerRadius="5dp"
-        app:cardElevation="5dp">
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:id="@+id/linear2"
@@ -52,7 +52,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Login"
                 android:textAllCaps="true"
-                android:textColor="@color/colorSecondaryText"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -84,14 +84,16 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorPrimaryDark">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/log_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
-                    android:drawableStart="@drawable/ic_lock_black_24dp"
+                    android:drawableStart="@drawable/ic_vpn_key"
                     android:focusable="true"
                     android:hint="Password"
                     android:inputType="textPassword"
@@ -106,6 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
                 android:background="@drawable/button"
                 android:clickable="true"
                 android:focusable="true"
@@ -113,47 +116,6 @@
                 android:text="@string/sign_in"
                 android:textColor="@color/colorIcons"
                 android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:textAlignment="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:fontFamily="sans-serif"
-                    android:text="New user? "
-                    android:textColor="@color/colorSecondaryText" />
-
-                <TextView
-                    android:id="@+id/toRegister"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:fontFamily="sans-serif"
-                    android:text="Register"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="Learn more..."
-                android:textColor="@color/colorAccent" />
 
         </LinearLayout>
 

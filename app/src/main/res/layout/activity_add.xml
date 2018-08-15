@@ -10,7 +10,7 @@
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         android:elevation="4dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -20,7 +20,7 @@
             android:id="@+id/toolbar_add"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryDark"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_collapseMode="pin"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -28,7 +28,7 @@
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
@@ -429,8 +429,7 @@
                 android:id="@+id/add_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_margin="16dp"
                 android:background="@drawable/button"
                 android:clickable="true"
                 android:elevation="5dp"
@@ -440,18 +439,19 @@
                 android:textSize="18sp" />
 
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_take_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_add_a_photo"
-        app:fabSize="normal"
-        app:layout_anchor="@id/image_from_camera"
-        app:layout_anchorGravity="bottom|right|end" />
+        app:fabSize="mini"
+        app:layout_anchor="@+id/image_from_camera"
+        app:layout_anchorGravity="right|bottom"
+        app:rippleColor="@color/colorPrimaryDark"
+        app:srcCompat="@drawable/ic_photo_camera"
+        app:useCompatPadding="true" />
 
 </android.support.design.widget.CoordinatorLayout>

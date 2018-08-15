@@ -1,7 +1,8 @@
-package com.example.watilah.onboardingapp;
+package com.example.watilah.bottomnavigation;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,34 +12,33 @@ import android.widget.TextView;
 
 public class SliderAdapter extends PagerAdapter {
 
-    Context context;
-    LayoutInflater layoutInflater;
+    private Context context;
 
-    public SliderAdapter (Context context){
+    SliderAdapter(Context context) {
         this.context = context;
     }
 
     // Arrays
 
-    public int[] slide_images = {
-            R.drawable.ah,
-            R.drawable.wf_logox,
-            R.drawable.assingment,
-            R.drawable.sfiti
+    private int[] slide_images = {
+            R.drawable.cake,
+            R.drawable.cakee,
+            R.drawable.cakeee,
+            R.drawable.chocolate
     };
 
-    public String[] slide_heading = {
-            "ASSIGNMENT HELP",
-            "WATILAH FELIX",
-            "ASSIGNMENT",
-            "SHARE FITI"
+    private String[] slide_heading = {
+            "FREE BREAKFAST",
+            "SHARE",
+            "SETTINGS",
+            "CHAT"
     };
 
-    public String[] slide_description = {
-            "Assignment Help is a Writers Club that helps  students in doing their assignment.",
-            "Watilah Felix is an IT student at Multimedia University of Kenya.",
-            "Assignment displays the completed work.",
-            "Share Fiti is the Social Media Platform at Multimedia University of Kenya."
+    private String[] slide_description = {
+            "Lets share free breakfast",
+            "Sharing is caring",
+            "Setting up your kitchen is the best thing to do.",
+            "Chatting all the way to the kitchen."
     };
 
     @Override
@@ -53,7 +53,7 @@ public class SliderAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.slide_layout, container, false);
 
         ImageView slideImageView = view.findViewById(R.id.slide_image);
@@ -71,6 +71,6 @@ public class SliderAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((RelativeLayout) object);
+        container.removeView((CardView) object);
     }
 }
